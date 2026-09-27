@@ -16,7 +16,7 @@ export function Progress({ step }: { step: number }) {
       </View>
       <View className="mt-2 flex-row justify-between">
         {["SERVICE", "DATE & TIME", "DETAILS"].map((l) => (
-          <Text key={l} className="font-bold text-[9px] leading-[13.5px] tracking-[1.08px] text-muted-foreground">
+          <Text key={l} className="font-bold text-[0.5625rem] leading-[0.8438rem] tracking-[0.0675rem] text-muted-foreground">
             {l}
           </Text>
         ))}
@@ -42,7 +42,7 @@ export function DateFace({ dow, day }: { dow: string; day: string }) {
   const fg = useButtonColor();
   return (
     <>
-      <Text className="font-medium text-[12px] leading-4" style={{ color: fg }}>
+      <Text className="font-medium text-[0.75rem] leading-4" style={{ color: fg }}>
         {dow}
       </Text>
       <Text className="font-bold text-lg leading-7" style={{ color: fg }}>
@@ -59,7 +59,7 @@ export function SlotFace({ time, available }: { time: string; available: boolean
       <Text className="font-medium text-sm leading-5" style={{ color: fg }}>
         {time}
       </Text>
-      <Text className="font-medium text-[9px] leading-[13.5px]" style={{ color: available ? fg : colors.mutedForeground }}>
+      <Text className="font-medium text-[0.5625rem] leading-[0.8438rem]" style={{ color: available ? fg : colors.mutedForeground }}>
         {available ? "AVAILABLE" : "BOOKED"}
       </Text>
     </>

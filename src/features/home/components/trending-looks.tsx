@@ -7,6 +7,7 @@ import { useScreen } from "@/hooks/use-screen";
 import { hapticImpact } from "@/lib/haptics";
 import { useSaj } from "@/store/saj-store";
 import { PortfolioCard } from "./portfolio-card";
+import { sz } from "@/theme/scale";
 
 /** "Trending bridal looks": a centre-snapping carousel of portfolio cards. */
 export function TrendingLooks({ onOpen }: { onOpen: (artist: Artist) => void }) {
@@ -14,9 +15,9 @@ export function TrendingLooks({ onOpen }: { onOpen: (artist: Artist) => void }) 
   const { saved, toggleSave } = useSaj();
   const [current, setCurrent] = useState(1);
 
-  const cardW = Math.min(width * 0.82, 340);
-  const gap = 16;
-  const pad = 20;
+  const cardW = Math.min(width * 0.82, sz(340));
+  const gap = sz(16);
+  const pad = sz(20);
   // Snap each card to the centre of the screen (snap-center on the web).
   const maxScroll = pad * 2 + artists.length * cardW + (artists.length - 1) * gap - width;
   const snaps = artists.map((_, i) => Math.min(maxScroll, Math.max(0, pad + i * (cardW + gap) + cardW / 2 - width / 2)));
@@ -37,7 +38,7 @@ export function TrendingLooks({ onOpen }: { onOpen: (artist: Artist) => void }) 
         showsHorizontalScrollIndicator={false}
         snapToOffsets={snaps}
         decelerationRate="fast"
-        contentContainerStyle={{ paddingHorizontal: pad, paddingBottom: 28, gap }}
+        contentContainerStyle={{ paddingHorizontal: pad, paddingBottom: sz(28), gap }}
         scrollEventThrottle={32}
         onScroll={(e) => {
           const next = Math.min(8, Math.max(1, Math.round(e.nativeEvent.contentOffset.x / (width * 0.82)) + 1));

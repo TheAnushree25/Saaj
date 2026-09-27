@@ -22,7 +22,7 @@ export function Textarea({ className, style, ...props }: TextInputProps) {
       placeholderTextColor={colors.mutedForeground}
       selectionColor={colors.primary}
       cursorColor={colors.primary}
-      className={cn("min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 font-sans text-base text-foreground", className)}
+      className={cn("min-h-[3.75rem] w-full rounded-md border border-input bg-transparent px-3 py-2 font-sans text-base text-foreground", className)}
       style={[shadows.sm, { textAlignVertical: "top" }, style]}
       {...props}
     />

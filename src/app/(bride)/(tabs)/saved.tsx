@@ -14,18 +14,19 @@ import { useScreen } from "@/hooks/use-screen";
 import { hapticImpact } from "@/lib/haptics";
 import { useSaj } from "@/store/saj-store";
 import { colors, shadows } from "@/theme";
+import { sz } from "@/theme/scale";
 
 export default function Saved() {
   const headerHeight = useHeaderHeight();
   const { width } = useScreen();
   const { saved, toggleSave } = useSaj();
   const list = artists.filter((a) => saved.includes(a.id));
-  const cardW = (width - 40 - 12) / 2;
+  const cardW = (width - sz(52)) / 2;
 
   return (
     <View className="flex-1 bg-background">
       <FocusStatusBar style="dark" />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: 112 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: sz(112) }}>
         <GentleIn>
           <View className="px-5 py-7">
             <Text className="font-display text-4xl leading-10">Your shortlist.</Text>
@@ -34,7 +35,7 @@ export default function Saved() {
             {list.length ? (
               <View className="mt-6 flex-row flex-wrap gap-3">
                 {list.map((a) => (
-                  <Animated.View key={a.id} layout={listLayout} exiting={listExit} style={[shadows.sm, { width: cardW, borderRadius: 29.6 }]}>
+                  <Animated.View key={a.id} layout={listLayout} exiting={listExit} style={[shadows.sm, { width: cardW, borderRadius: sz(29.6) }]}>
                     <View className="overflow-hidden rounded-2xl bg-card">
                       <PressableScale
                         onPress={() => router.push({ pathname: "/artist/[id]", params: { id: String(a.id) } })}
@@ -46,7 +47,7 @@ export default function Saved() {
                           <Text numberOfLines={1} className="font-display text-lg leading-7">
                             {a.studio}
                           </Text>
-                          <Text className="mt-1 text-[11px] leading-[16.5px] text-muted-foreground">
+                          <Text className="mt-1 text-[0.6875rem] leading-[1.0312rem] text-muted-foreground">
                             ★ {a.rating} · {a.location}
                           </Text>
                         </View>
@@ -70,7 +71,7 @@ export default function Saved() {
             ) : (
               <FadeInView>
                 <View className="items-center py-24">
-                  <Heart size={36} color={colors.mutedForeground} />
+                  <Heart size={sz(36)} color={colors.mutedForeground} />
                   <Text className="mt-4 font-display text-2xl leading-8">Your edit awaits</Text>
                   <Text className="mt-2 text-sm leading-5 text-muted-foreground">Tap the heart on an artist you love.</Text>
                 </View>

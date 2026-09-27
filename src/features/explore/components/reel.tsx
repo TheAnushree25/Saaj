@@ -12,6 +12,7 @@ import { Text } from "@/components/ui/text";
 import { artists, type Artist } from "@/data/catalogue";
 import { hapticImpact } from "@/lib/haptics";
 import { berry, colors, ivory, shadows } from "@/theme";
+import { sz } from "@/theme/scale";
 
 const POSITIONS: ImageContentPosition[] = [
   { left: "50%", top: "20%" },
@@ -55,7 +56,7 @@ export function Reel({ artist, index, width, height, topInset, liked, saved, onL
       />
       <LinearGradient {...REEL_GRADIENT} style={StyleSheet.absoluteFill} />
 
-      <View className="absolute right-4 z-10 items-center gap-4" style={{ bottom: 300 }}>
+      <View className="absolute right-4 z-10 items-center gap-4" style={{ bottom: sz(300) }}>
         <ReelAction
           label={liked ? "Unlike" : "Like"}
           icon={Heart}
@@ -86,25 +87,25 @@ export function Reel({ artist, index, width, height, topInset, liked, saved, onL
         imageScale={1.05}
         gradient={REEL_GRADIENT}
         tint={ivory(0.15)}
-        radius={26}
+        radius={sz(26)}
         className="absolute inset-x-3 bottom-24 z-10 border border-primary-foreground/25 p-4"
         style={shadows.luxury}
       >
         <View className="flex-row items-center gap-3">
-          <Image source={artist.image} contentFit="cover" style={{ width: 40, height: 40, borderRadius: 20, borderWidth: 1, borderColor: ivory(0.5) }} />
+          <Image source={artist.image} contentFit="cover" style={{ width: sz(40), height: sz(40), borderRadius: sz(20), borderWidth: 1, borderColor: ivory(0.5) }} />
           <View className="min-w-0 flex-1">
-            <Text numberOfLines={1} className="font-display text-xl leading-[25px] text-primary-foreground">
+            <Text numberOfLines={1} className="font-display text-xl leading-[1.5625rem] text-primary-foreground">
               {artist.studio}
             </Text>
             <View className="flex-row items-center gap-1">
-              <Star size={12} color={ivory(0.75)} fill={ivory(0.75)} />
-              <Text className="text-[11px] leading-[16.5px] text-primary-foreground/75">
+              <Star size={sz(12)} color={ivory(0.75)} fill={ivory(0.75)} />
+              <Text className="text-[0.6875rem] leading-[1.0312rem] text-primary-foreground/75">
                 {artist.rating} · {artist.category} · {artist.location}
               </Text>
             </View>
           </View>
         </View>
-        <Text className="mt-3 text-sm leading-[19.25px] text-primary-foreground/90">{artist.tagline}</Text>
+        <Text className="mt-3 text-sm leading-[1.2031rem] text-primary-foreground/90">{artist.tagline}</Text>
         <Button
           variant="ivory"
           className="mt-3 h-11 w-full rounded-full"
@@ -116,8 +117,8 @@ export function Reel({ artist, index, width, height, topInset, liked, saved, onL
       </Frosted>
 
       <Text
-        className="absolute right-5 z-10 font-semibold text-[10px] leading-[15px] tracking-[2px] text-primary-foreground/70"
-        style={{ top: topInset + 64 }}
+        className="absolute right-5 z-10 font-semibold text-[0.625rem] leading-[0.9375rem] tracking-[0.125rem] text-primary-foreground/70"
+        style={{ top: topInset + sz(64) }}
       >
         {String(index + 1).padStart(2, "0")} / {String(artists.length).padStart(2, "0")}
       </Text>
@@ -146,10 +147,10 @@ function ReelAction({ label, icon: Icon, caption, active = false, onPress }: Ree
     <PressableScale onPress={onPress} accessibilityRole="button" accessibilityLabel={label} className="items-center gap-1">
       <View className="h-12 w-12 items-center justify-center rounded-full border border-primary-foreground/25 bg-primary-foreground/15" style={shadows.glass}>
         <Animated.View style={iconStyle}>
-          <Icon size={20} color={pf} fill={active ? pf : "none"} />
+          <Icon size={sz(20)} color={pf} fill={active ? pf : "none"} />
         </Animated.View>
       </View>
-      <Text className="font-semibold text-[10px] leading-[15px] text-primary-foreground">{caption}</Text>
+      <Text className="font-semibold text-[0.625rem] leading-[0.9375rem] text-primary-foreground">{caption}</Text>
     </PressableScale>
   );
 }

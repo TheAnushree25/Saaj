@@ -9,6 +9,7 @@ import { GentleIn } from "@/components/ui/motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
+import { sz } from "@/theme/scale";
 
 type Props = { openArtist: (a: Artist) => void; openService: (s: Service) => void };
 
@@ -38,11 +39,11 @@ export function HomeSearch({ openArtist, openService }: Props) {
           style={shadows.glass}
         />
         <View className="absolute left-4" style={{ pointerEvents: "none" }}>
-          <Search size={16} color={colors.mutedForeground} />
+          <Search size={sz(16)} color={colors.mutedForeground} />
         </View>
         {query ? (
           <Pressable accessibilityLabel="Clear search" hitSlop={10} onPress={() => setQuery("")} className="absolute right-4">
-            <X size={16} color={colors.mutedForeground} />
+            <X size={sz(16)} color={colors.mutedForeground} />
           </Pressable>
         ) : null}
       </View>
@@ -64,23 +65,23 @@ export function HomeSearch({ openArtist, openService }: Props) {
                 <Text numberOfLines={1} className="font-bold text-sm leading-5">
                   {s.name}
                 </Text>
-                <Text className="text-[13px] leading-5 text-muted-foreground">Service · from {inr(s.price)}</Text>
+                <Text className="text-[0.8125rem] leading-5 text-muted-foreground">Service · from {inr(s.price)}</Text>
               </View>
-              <ChevronRight size={16} color={colors.foreground} />
+              <ChevronRight size={sz(16)} color={colors.foreground} />
             </Pressable>
           ))}
           {matchA.map((a) => (
             <Pressable key={a.id} onPress={() => openArtist(a)} className="flex-row items-center gap-3 rounded-2xl p-2 active:bg-muted">
-              <Image source={a.image} contentFit="cover" style={{ width: 48, height: 48, borderRadius: 25.6 }} />
+              <Image source={a.image} contentFit="cover" style={{ width: sz(48), height: sz(48), borderRadius: sz(25.6) }} />
               <View className="min-w-0 flex-1">
                 <Text numberOfLines={1} className="font-bold text-sm leading-5">
                   {a.studio}
                 </Text>
-                <Text className="text-[13px] leading-5 text-muted-foreground">
+                <Text className="text-[0.8125rem] leading-5 text-muted-foreground">
                   {a.category} · {a.location}
                 </Text>
               </View>
-              <ChevronRight size={16} color={colors.foreground} />
+              <ChevronRight size={sz(16)} color={colors.foreground} />
             </Pressable>
           ))}
           {!matchA.length && !matchS.length ? (

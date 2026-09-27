@@ -6,6 +6,7 @@ import { IconButton } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import type { Artist } from "@/data/catalogue";
 import { berry, colors, shadows } from "@/theme";
+import { sz } from "@/theme/scale";
 
 type Props = { artist: Artist; width: number; saved: boolean; onOpen: () => void; onSave: () => void };
 
@@ -16,12 +17,12 @@ export function PortfolioCard({ artist, width, saved, onOpen, onSave }: Props) {
   // The save button sits beside the card's pressable area, not inside it:
   // a button inside a button is invalid on the web and confuses screen readers.
   return (
-    <View style={[shadows.luxury, { width, height: width * 1.25, borderRadius: 24 }]}>
+    <View style={[shadows.luxury, { width, height: width * 1.25, borderRadius: sz(24) }]}>
       <Pressable
         onPress={onOpen}
         accessibilityRole="button"
         accessibilityLabel={`${artist.studio} bridal portfolio`}
-        className="flex-1 overflow-hidden rounded-[24px] bg-card active:opacity-90"
+        className="flex-1 overflow-hidden rounded-[1.5rem] bg-card active:opacity-90"
       >
         <Image source={artist.image} contentFit="cover" transition={250} style={StyleSheet.absoluteFill} />
         <LinearGradient
@@ -33,18 +34,18 @@ export function PortfolioCard({ artist, width, saved, onOpen, onSave }: Props) {
         />
         <View className="absolute inset-x-0 bottom-0 p-5">
           <View className="mb-2 flex-row items-center gap-1">
-            <Star size={12} color={pf} fill={pf} />
+            <Star size={sz(12)} color={pf} fill={pf} />
             <Text className="text-xs leading-4 text-primary-foreground">
               {artist.rating} · {artist.reviews} brides
             </Text>
           </View>
-          <Text className="font-display text-3xl leading-[37.5px] text-primary-foreground">{artist.studio}</Text>
+          <Text className="font-display text-3xl leading-[2.3438rem] text-primary-foreground">{artist.studio}</Text>
           <Text className="mt-1 text-xs leading-4 text-primary-foreground/75">
             {artist.category} · {artist.location}
           </Text>
           <View className="mt-4 flex-row items-center gap-2">
-            <Text className="font-bold text-xs leading-4 tracking-[1.56px] text-primary-foreground">VIEW PORTFOLIO</Text>
-            <ArrowRight size={12} color={pf} />
+            <Text className="font-bold text-xs leading-4 tracking-[0.0975rem] text-primary-foreground">VIEW PORTFOLIO</Text>
+            <ArrowRight size={sz(12)} color={pf} />
           </View>
         </View>
       </Pressable>

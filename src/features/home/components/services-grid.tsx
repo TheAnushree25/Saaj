@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { Text } from "@/components/ui/text";
+import { sz } from "@/theme/scale";
 
 type SortKey = "popular" | "low" | "high";
 const SORTS: [SortKey, string][] = [
@@ -44,7 +45,7 @@ export function ServicesGrid({ openService, onSeeAll }: Props) {
     );
 
   // w-[62%] of the padded row, capped at 280, in a 3:4 frame.
-  const cardW = Math.min((width - 40) * 0.62, 280);
+  const cardW = Math.min((width - sz(40)) * 0.62, sz(280));
   const cardH = cardW * (4 / 3);
 
   return (
@@ -95,18 +96,18 @@ export function ServicesGrid({ openService, onSeeAll }: Props) {
               layout={listLayout}
               entering={listEnter}
               exiting={listExit}
-              style={[shadows.luxury, { width: cardW, height: cardH, borderRadius: 26 }]}
+              style={[shadows.luxury, { width: cardW, height: cardH, borderRadius: sz(26) }]}
             >
               <PressableScale
                 onPress={() => openService(s)}
                 accessibilityRole="button"
                 accessibilityLabel={`${s.name}, from ${inr(s.price)}`}
-                className="flex-1 overflow-hidden rounded-[26px]"
+                className="flex-1 overflow-hidden rounded-[1.625rem]"
               >
                 <Image source={s.image} contentFit="cover" transition={250} style={StyleSheet.absoluteFill} />
                 <LinearGradient {...CARD_GRADIENT} style={StyleSheet.absoluteFill} />
                 <View className="absolute left-3 top-3 rounded-full border border-glass-border bg-glass px-3 py-1">
-                  <Text className="font-bold text-[10px] leading-[15px] tracking-[1.5px]">
+                  <Text className="font-bold text-[0.625rem] leading-[0.9375rem] tracking-[0.0938rem]">
                     {sort === "popular" && i === 0 ? "MOST LOVED" : meta.type.toUpperCase()}
                   </Text>
                 </View>
@@ -115,11 +116,11 @@ export function ServicesGrid({ openService, onSeeAll }: Props) {
                   frame={{ width: cardW, height: cardH }}
                   gradient={CARD_GRADIENT}
                   tint={ivory(0.1)}
-                  radius={20}
+                  radius={sz(20)}
                   className="absolute inset-x-2 bottom-2 border border-primary-foreground/25 p-3"
                 >
-                  <Text className="font-display text-lg leading-[22.5px] text-primary-foreground">{s.name}</Text>
-                  <Text className="mt-1 text-[11px] leading-[16.5px] text-primary-foreground/75">
+                  <Text className="font-display text-lg leading-[1.4062rem] text-primary-foreground">{s.name}</Text>
+                  <Text className="mt-1 text-[0.6875rem] leading-[1.0312rem] text-primary-foreground/75">
                     {s.duration} · ★ {meta.rating}
                   </Text>
                   <View className="mt-2 flex-row items-center justify-between">
@@ -127,7 +128,7 @@ export function ServicesGrid({ openService, onSeeAll }: Props) {
                       From <Text className="font-bold text-sm leading-5 text-primary-foreground/80">{inr(s.price)}</Text>
                     </Text>
                     <View className="h-8 w-8 items-center justify-center rounded-full bg-primary-foreground">
-                      <ArrowRight size={16} color={colors.primary} />
+                      <ArrowRight size={sz(16)} color={colors.primary} />
                     </View>
                   </View>
                 </Frosted>

@@ -4,6 +4,7 @@ import type { LucideIcon } from "lucide-react-native";
 import { colors, shadows } from "@/theme";
 import { cn } from "@/lib/utils";
 import { Text } from "./text";
+import { sz } from "@/theme/scale";
 
 // A React Native port of the web design's button (shadcn's variants plus the
 // SAJ "luxury" and "glass" styles). Same variant and size names as the web code.
@@ -54,7 +55,7 @@ export function Button({
   fg,
   iconLeft: IconLeft,
   iconRight: IconRight,
-  iconSize = 16,
+  iconSize = sz(16),
   children,
   disabled,
   style,
@@ -114,7 +115,7 @@ export function IconButton({ label, icon: Icon, onPress, active = false, filled 
       fg={color}
       className={cn("h-11 w-11 shrink-0", active && "bg-primary", className)}
     >
-      <Icon size={16} color={color} fill={filled ? color : "none"} />
+      <Icon size={sz(16)} color={color} fill={filled ? color : "none"} />
     </Button>
   );
 }

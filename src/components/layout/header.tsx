@@ -5,9 +5,10 @@ import { ArrowLeft, Bell } from "lucide-react-native";
 import { IconButton } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { Logo } from "@/components/brand/logo";
+import { sz } from "@/theme/scale";
 
 /** Height of the bar below the status bar: 12 + 44 + 12 padding/button, 1 border. */
-export const HEADER_BAR = 69;
+export const HEADER_BAR = sz(68) + 1;
 
 export function useHeaderHeight() {
   return useSafeAreaInsets().top + HEADER_BAR;
@@ -22,18 +23,18 @@ export function Header({ title, onBack, action }: { title?: string; onBack?: () 
   const insets = useSafeAreaInsets();
   return (
     <View style={{ paddingTop: insets.top }} className="absolute inset-x-0 top-0 z-40 border-b border-border/60 bg-background/85">
-      <View className="h-[68px] flex-row items-center justify-between px-4">
-        <View className="h-11 min-w-[44px] justify-center">
+      <View className="h-[4.25rem] flex-row items-center justify-between px-4">
+        <View className="h-11 min-w-[2.75rem] justify-center">
           {onBack ? <IconButton label="Go back" icon={ArrowLeft} onPress={onBack} /> : <Logo />}
         </View>
         {title ? (
-          <View className="absolute inset-y-0 left-[68px] right-[68px] justify-center" style={{ pointerEvents: "none" }}>
+          <View className="absolute inset-y-0 left-[4.25rem] right-[4.25rem] justify-center" style={{ pointerEvents: "none" }}>
             <Text numberOfLines={1} className="text-center font-display text-xl leading-7">
               {title}
             </Text>
           </View>
         ) : null}
-        <View className="h-11 min-w-[44px] items-end justify-center">
+        <View className="h-11 min-w-[2.75rem] items-end justify-center">
           {action ?? <IconButton label="Notifications" icon={Bell} />}
         </View>
       </View>

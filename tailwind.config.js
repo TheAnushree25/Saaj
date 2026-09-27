@@ -43,15 +43,16 @@ module.exports = {
         display: ["DMSerifDisplay_400Regular"],
         "display-italic": ["DMSerifDisplay_400Regular_Italic"],
       },
-      // The design's radius scale is built on a 1.35rem base.
+      // The design's radius scale is built on a 1.35rem base (in rem so it
+      // scales with the phone, like every other size).
       borderRadius: {
-        sm: "17.6px",
-        md: "19.6px",
-        lg: "21.6px",
-        xl: "25.6px",
-        "2xl": "29.6px",
-        "3xl": "33.6px",
-        "4xl": "37.6px",
+        sm: "1.1rem",
+        md: "1.225rem",
+        lg: "1.35rem",
+        xl: "1.6rem",
+        "2xl": "1.85rem",
+        "3xl": "2.1rem",
+        "4xl": "2.35rem",
       },
     },
   },

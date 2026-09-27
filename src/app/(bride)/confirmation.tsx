@@ -11,6 +11,7 @@ import { inr } from "@/lib/format";
 import { useSaj } from "@/store/saj-store";
 import { colors } from "@/theme";
 import { cn } from "@/lib/utils";
+import { sz } from "@/theme/scale";
 
 /** "Your moment is booked." */
 export default function Confirmation() {
@@ -40,23 +41,23 @@ export default function Confirmation() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerClassName="grow items-center justify-center px-6"
-        contentContainerStyle={{ paddingTop: insets.top + 32, paddingBottom: insets.bottom + 32 }}
+        contentContainerStyle={{ paddingTop: insets.top + sz(32), paddingBottom: insets.bottom + sz(32) }}
       >
         <View className="w-full max-w-sm items-center">
           <PopIn>
             <View className="h-20 w-20 items-center justify-center rounded-full border border-primary-foreground/30 bg-primary-foreground/10">
-              <Check size={36} color={colors.primaryForeground} />
+              <Check size={sz(36)} color={colors.primaryForeground} />
             </View>
           </PopIn>
 
           <GentleIn delay={150} style={{ width: "100%", alignItems: "center" }}>
             <Text className="mt-7 text-center font-display text-4xl leading-10 text-primary-foreground">Your moment is booked.</Text>
-            <Text className="mt-3 text-xs leading-4 tracking-[1.92px] text-primary-foreground/70">BOOKING ID · SS-120426</Text>
+            <Text className="mt-3 text-xs leading-4 tracking-[0.12rem] text-primary-foreground/70">BOOKING ID · SS-120426</Text>
 
             <View className="mt-8 w-full rounded-3xl border border-primary-foreground/15 bg-primary-foreground/10 p-5">
               {rows.map(([label, value], i) => (
                 <View key={label} className={cn("flex-row py-3", i < rows.length - 1 && "border-b border-primary-foreground/10")}>
-                  <Text className="w-[95px] text-xs leading-4 text-primary-foreground/60">{label}</Text>
+                  <Text className="w-[5.9375rem] text-xs leading-4 text-primary-foreground/60">{label}</Text>
                   <Text className="flex-1 text-right font-bold text-sm leading-5 text-primary-foreground">{value}</Text>
                 </View>
               ))}

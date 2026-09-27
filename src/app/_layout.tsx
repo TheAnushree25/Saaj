@@ -1,3 +1,5 @@
+// Must run first: sets 1rem for this phone's width before anything is styled.
+import "@/lib/setup-scale";
 import "../../global.css";
 // Per-weight imports, so only the six font files the design uses get bundled.
 import { DMSerifDisplay_400Regular } from "@expo-google-fonts/dm-serif-display/400Regular";

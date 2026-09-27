@@ -4,6 +4,7 @@ import { Pressable, TextInput, View, type TextInputProps } from "react-native";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
 import { colors, shadows } from "@/theme";
+import { sz } from "@/theme/scale";
 
 type Props = TextInputProps & {
   /** React 19 passes refs as a normal prop; used to jump between fields. */
@@ -25,7 +26,7 @@ export function AuthField({ ref, label, error, prefix, suffix, onFocus, onBlur, 
 
   return (
     <View className="mb-4">
-      <Text className="mb-2 font-bold text-[10px] leading-[15px] tracking-[1.6px] text-muted-foreground">{label}</Text>
+      <Text className="mb-2 font-bold text-[0.625rem] leading-[0.9375rem] tracking-[0.1rem] text-muted-foreground">{label}</Text>
       <View
         className={cn(
           "h-14 flex-row items-center rounded-2xl border bg-card px-4",
@@ -79,7 +80,7 @@ export function PasswordToggle({ visible, onToggle }: { visible: boolean; onTogg
       accessibilityLabel={visible ? "Hide password" : "Show password"}
       className="ml-2 h-9 w-9 items-center justify-center rounded-full active:bg-muted"
     >
-      <Icon size={18} color={colors.mutedForeground} />
+      <Icon size={sz(18)} color={colors.mutedForeground} />
     </Pressable>
   );
 }

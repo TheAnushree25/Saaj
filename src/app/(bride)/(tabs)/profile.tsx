@@ -9,6 +9,7 @@ import { Text } from "@/components/ui/text";
 import { images } from "@/data/catalogue";
 import { colors } from "@/theme";
 import { cn } from "@/lib/utils";
+import { sz } from "@/theme/scale";
 
 const ROWS: { label: string; href?: Href }[] = [
   { label: "My Details" },
@@ -26,12 +27,12 @@ export default function Profile() {
   return (
     <View className="flex-1 bg-background">
       <FocusStatusBar style="dark" />
-      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: 112 }}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: sz(112) }}>
         <GentleIn>
           <View className="items-center px-5 py-7">
-          <Image source={images.ananya} contentFit="cover" accessibilityLabel="Ayesha Khan" style={{ width: 96, height: 96, borderRadius: 48 }} />
+          <Image source={images.ananya} contentFit="cover" accessibilityLabel="Ayesha Khan" style={{ width: sz(96), height: sz(96), borderRadius: sz(48) }} />
           <Text className="mt-4 font-display text-3xl leading-9">Ayesha Khan</Text>
-          <Text className="text-xs leading-4 tracking-[1.56px] text-primary">BRIDE PROFILE</Text>
+          <Text className="text-xs leading-4 tracking-[0.0975rem] text-primary">BRIDE PROFILE</Text>
 
           <View className="mt-8 w-full overflow-hidden rounded-2xl border border-border bg-card">
             {ROWS.map((row, i) => (
@@ -42,7 +43,7 @@ export default function Profile() {
                 className={cn("flex-row items-center px-4 py-4 active:bg-muted", i < ROWS.length - 1 && "border-b border-border")}
               >
                 <Text className="flex-1 text-center text-sm leading-5">{row.label}</Text>
-                <ChevronRight size={16} color={colors.mutedForeground} />
+                <ChevronRight size={sz(16)} color={colors.mutedForeground} />
               </Pressable>
             ))}
           </View>

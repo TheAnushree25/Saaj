@@ -29,6 +29,7 @@ Run lint and typecheck before declaring any task done.
 - Styling is NativeWind v4 + Tailwind 3.4 (`tailwind.config.js`, `global.css`). Fonts are one family per weight: use `font-sans` / `font-medium` / `font-semibold` / `font-bold` / `font-display`, never a fontWeight. Use `Text` from `src/components/ui/text.tsx`, not React Native's, so every string gets the body font and colour.
 - **Never put `className` on a Reanimated `Animated.*` component** (and never register one with `cssInterop`): on Android the className shim swallows animated styles and collapses layouts. Animated components take `style` only; put classes on a plain View inside or around them. Press feedback uses NativeWind `active:` classes on plain `Pressable`s.
 - Use `useScreen()` (src/hooks/use-screen.tsx), not `useWindowDimensions`, for layout maths, so the laptop phone-frame preview sizes correctly.
+- **Sizes scale with the phone** (src/theme/scale.ts): the design is 390 wide and 1rem = 16 × (width / 390). Write class sizes in rem (Tailwind defaults, or `[1.5rem]` arbitrary values — never `[24px]`), and pass every design-pixel number in style props or icon `size` through `sz()`. Laptop browsers show a 390 × 844 phone frame at scale 1; phones (touch, <600 wide physically) always fill the screen.
 - No live blur on Android (`BlurTargetView` is experimental); `GlassSurface` handles platform differences.
 - `npm run check:styles` compiles the Tailwind classes for Android the way Metro does and reports missing ones.
 - Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.

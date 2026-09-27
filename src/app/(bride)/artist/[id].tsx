@@ -20,6 +20,7 @@ import { hapticImpact } from "@/lib/haptics";
 import { findArtist, images, services, type Service } from "@/data/catalogue";
 import { useSaj } from "@/store/saj-store";
 import { berry, colors, shadows } from "@/theme";
+import { sz } from "@/theme/scale";
 
 const GALLERY_FILTERS = ["All", "Bridal", "Engagement", "Reception", "Haldi", "Sangeet"];
 
@@ -52,7 +53,7 @@ export default function Portfolio() {
 
   const openService = (s: Service) => router.push({ pathname: "/service/[id]", params: { id: String(s.id), artist: String(artist.id) } });
   const share = () => Share.share({ message: `${artist.studio} on SAJ — “${artist.tagline}”` }).catch(() => {});
-  const colW = (width - 24 - 8) / 2;
+  const colW = (width - sz(32)) / 2;
 
   return (
     <View className="flex-1 bg-background">
@@ -62,7 +63,7 @@ export default function Portfolio() {
           onScroll={onScroll}
           scrollEventThrottle={16}
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 112 + insets.bottom }}
+          contentContainerStyle={{ paddingBottom: sz(112) + insets.bottom }}
         >
           {/* Hero */}
           <View style={{ height: heroH }} className="overflow-hidden bg-berry-deep">
@@ -76,7 +77,7 @@ export default function Portfolio() {
               end={{ x: 0, y: 0 }}
               style={StyleSheet.absoluteFill}
             />
-            <View className="absolute inset-x-0 top-0 flex-row justify-between p-4" style={{ paddingTop: insets.top + 16 }}>
+            <View className="absolute inset-x-0 top-0 flex-row justify-between p-4" style={{ paddingTop: insets.top + sz(16) }}>
               <IconButton label="Go back" icon={ArrowLeft} onPress={() => router.back()} />
               <View className="flex-row gap-2">
                 <IconButton label="Share" icon={Share2} onPress={share} />
@@ -92,9 +93,9 @@ export default function Portfolio() {
                 />
               </View>
             </View>
-            <GentleIn delay={120} style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: 24 }}>
+            <GentleIn delay={120} style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: sz(24) }}>
               <View className="self-start rounded-full bg-ivory/15 px-3 py-1">
-                <Text className="text-[10px] leading-[15px] tracking-[1.5px] text-primary-foreground">VERIFIED ARTIST</Text>
+                <Text className="text-[0.625rem] leading-[0.9375rem] tracking-[0.0938rem] text-primary-foreground">VERIFIED ARTIST</Text>
               </View>
               <Text className="mt-3 font-display text-4xl leading-10 text-primary-foreground">{artist.studio}</Text>
               <Text className="mt-2 font-display-italic text-xl leading-7 text-primary-foreground/85">“{artist.tagline}”</Text>
@@ -124,7 +125,7 @@ export default function Portfolio() {
             <View className="gap-2 px-3">
               {[0, 3].map((start) => (
                 <View key={start} className="flex-row gap-2">
-                  <GalleryTile source={gallery[start]} label={`${filter} look ${start + 1}`} width={colW} height={colW * 2 + 8} onPress={() => setLightbox(start)} />
+                  <GalleryTile source={gallery[start]} label={`${filter} look ${start + 1}`} width={colW} height={colW * 2 + sz(8)} onPress={() => setLightbox(start)} />
                   <View className="gap-2">
                     {[start + 1, start + 2].map((i) => (
                       <GalleryTile key={i} source={gallery[i]} label={`${filter} look ${i + 1}`} width={colW} height={colW} onPress={() => setLightbox(i)} />
@@ -138,7 +139,7 @@ export default function Portfolio() {
           {/* About */}
           <View className="border-y border-border px-5 py-8">
             <Eyebrow>ABOUT THE ARTIST</Eyebrow>
-            <Text className="mt-3 font-display text-2xl leading-[39px]">{artist.bio}</Text>
+            <Text className="mt-3 font-display text-2xl leading-[2.4375rem]">{artist.bio}</Text>
           </View>
 
           {/* Services */}
@@ -152,23 +153,23 @@ export default function Portfolio() {
                   onPress={() => openService(s)}
                   accessibilityRole="button"
                   accessibilityLabel={`${s.name}, ${inr(s.price)}`}
-                  className="flex-row items-center gap-4 rounded-[22px] border border-glass-border bg-glass p-2.5 pr-4"
+                  className="flex-row items-center gap-4 rounded-[1.375rem] border border-glass-border bg-glass p-2.5 pr-4"
                   style={shadows.glass}
                 >
-                  <Image source={s.image} contentFit="cover" style={{ width: 76, height: 76, borderRadius: 29.6 }} />
+                  <Image source={s.image} contentFit="cover" style={{ width: sz(76), height: sz(76), borderRadius: sz(29.6) }} />
                   <View className="min-w-0 flex-1">
                     <Text numberOfLines={1} className="font-display text-lg leading-7">
                       {s.name}
                     </Text>
                     <View className="mt-1 flex-row items-center gap-1">
-                      <Clock3 size={12} color={colors.mutedForeground} />
-                      <Text className="text-[13px] leading-5 text-muted-foreground">{s.duration}</Text>
+                      <Clock3 size={sz(12)} color={colors.mutedForeground} />
+                      <Text className="text-[0.8125rem] leading-5 text-muted-foreground">{s.duration}</Text>
                     </View>
                   </View>
                   <View className="items-end">
                     <Text className="font-bold text-sm leading-5">{inr(s.price)}</Text>
                     <View className="mt-1">
-                      <ChevronRight size={16} color={colors.primary} />
+                      <ChevronRight size={sz(16)} color={colors.primary} />
                     </View>
                   </View>
                 </PressableScale>
@@ -178,7 +179,7 @@ export default function Portfolio() {
 
           {/* Review */}
           <View className="mx-5 rounded-2xl bg-nude p-5">
-            <Text className="text-base leading-6 tracking-[2px] text-primary">★★★★★</Text>
+            <Text className="text-base leading-6 tracking-[0.125rem] text-primary">★★★★★</Text>
             <Text className="mt-3 font-display text-xl leading-7">“From the trial to the final touch, I felt completely understood.”</Text>
             <Text className="mt-3 text-xs leading-4 text-muted-foreground">Mira S. · December bride</Text>
           </View>
@@ -186,10 +187,10 @@ export default function Portfolio() {
       </View>
 
       {/* Sticky booking bar */}
-      <GlassSurface className="absolute inset-x-0 bottom-0 border-t border-border px-3 pt-3" style={{ paddingBottom: Math.max(16, insets.bottom) }}>
-        <View className="w-full max-w-[430px] flex-row items-center gap-3 self-center">
+      <GlassSurface className="absolute inset-x-0 bottom-0 border-t border-border px-3 pt-3" style={{ paddingBottom: Math.max(sz(16), insets.bottom) }}>
+        <View className="w-full max-w-[26.875rem] flex-row items-center gap-3 self-center">
           <View className="flex-1">
-            <Text className="text-[13px] leading-5 text-muted-foreground">Bridal Makeup</Text>
+            <Text className="text-[0.8125rem] leading-5 text-muted-foreground">Bridal Makeup</Text>
             <Text className="font-bold text-base leading-6">₹25,000</Text>
           </View>
           <Button size="lg" iconRight={ArrowRight} onPress={() => openService(services[0])}>

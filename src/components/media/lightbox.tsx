@@ -5,6 +5,7 @@ import { FlatList, Modal, Pressable, useWindowDimensions, View } from "react-nat
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IconButton } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
+import { sz } from "@/theme/scale";
 
 type Props = { images: number[]; index: number | null; onClose: () => void };
 
@@ -41,10 +42,10 @@ export function Lightbox({ images, index, onClose }: Props) {
             )}
           />
         ) : null}
-        <View className="absolute right-4" style={{ top: insets.top + 16 }}>
+        <View className="absolute right-4" style={{ top: insets.top + sz(16) }}>
           <IconButton label="Close gallery" icon={X} onPress={onClose} />
         </View>
-        <View className="absolute inset-x-0 items-center" style={{ bottom: insets.bottom + 32, pointerEvents: "none" }}>
+        <View className="absolute inset-x-0 items-center" style={{ bottom: insets.bottom + sz(32), pointerEvents: "none" }}>
           <Text className="text-xs leading-4 text-primary-foreground">
             {current + 1} / {images.length}
           </Text>

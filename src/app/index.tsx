@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { useSaj } from "@/store/saj-store";
 import { ivory } from "@/theme";
+import { sz } from "@/theme/scale";
 
 /**
  * The cinematic opening. Returning brides skip straight to Home, exactly like
@@ -24,13 +25,13 @@ export default function Opening() {
       <Outlines />
       <View className="items-center">
         <GentleIn>
-          <Text className="font-display text-8xl leading-[96px] text-primary-foreground">SAJ</Text>
+          <Text className="font-display text-8xl leading-[6rem] text-primary-foreground">SAJ</Text>
         </GentleIn>
         <GentleIn delay={120}>
-          <Text className="mt-5 text-xs leading-4 tracking-[3.36px] text-primary-foreground/70">BRIDAL BEAUTY</Text>
+          <Text className="mt-5 text-xs leading-4 tracking-[0.21rem] text-primary-foreground/70">BRIDAL BEAUTY</Text>
         </GentleIn>
         <GentleIn delay={240}>
-          <Text className="mt-14 text-center font-display text-2xl leading-[33px] text-primary-foreground">
+          <Text className="mt-14 text-center font-display text-2xl leading-[2.0625rem] text-primary-foreground">
             {"Everything she needs\nfor her big day."}
           </Text>
         </GentleIn>
@@ -57,17 +58,17 @@ function Outlines() {
       {size.w > 0 ? (
         <Svg width={size.w} height={size.h}>
           <Rect
-            x={24.5}
-            y={24.5}
-            width={size.w - 49}
-            height={size.h - 49}
-            rx={(size.w - 48) * 0.4}
-            ry={(size.h - 48) * 0.4}
+            x={sz(24) + 0.5}
+            y={sz(24) + 0.5}
+            width={size.w - sz(48) - 1}
+            height={size.h - sz(48) - 1}
+            rx={(size.w - sz(48)) * 0.4}
+            ry={(size.h - sz(48)) * 0.4}
             stroke={line}
             strokeWidth={1}
             fill="none"
           />
-          <Circle cx={52} cy={208} r={111.5} stroke={line} strokeWidth={1} fill="none" />
+          <Circle cx={sz(52)} cy={sz(208)} r={sz(112) - 0.5} stroke={line} strokeWidth={1} fill="none" />
         </Svg>
       ) : null}
     </FadeInView>

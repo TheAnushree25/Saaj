@@ -5,6 +5,7 @@ import { ActivityIndicator, Pressable, StyleSheet, View } from "react-native";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from "react-native-reanimated";
 import { Text } from "@/components/ui/text";
 import { colors, shadows } from "@/theme";
+import { sz } from "@/theme/scale";
 
 type Props = { label: string; loading?: boolean; onPress: () => void };
 
@@ -49,8 +50,8 @@ export function ShimmerButton({ label, loading = false, onPress }: Props) {
           <ActivityIndicator color={colors.primaryForeground} />
         ) : (
           <>
-            <Text className="font-semibold text-[15px] leading-5 text-primary-foreground">{label}</Text>
-            <ArrowRight size={16} color={colors.primaryForeground} />
+            <Text className="font-semibold text-[0.9375rem] leading-5 text-primary-foreground">{label}</Text>
+            <ArrowRight size={sz(16)} color={colors.primaryForeground} />
           </>
         )}
       </Pressable>
@@ -59,5 +60,5 @@ export function ShimmerButton({ label, loading = false, onPress }: Props) {
 }
 
 const styles = StyleSheet.create({
-  sheen: { position: "absolute", top: -24, bottom: -24, left: 0, width: 90, pointerEvents: "none" },
+  sheen: { position: "absolute", top: -sz(24), bottom: -sz(24), left: 0, width: sz(90), pointerEvents: "none" },
 });

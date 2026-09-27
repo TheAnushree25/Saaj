@@ -7,6 +7,7 @@ import { hapticTap } from "@/lib/haptics";
 import { cn } from "@/lib/utils";
 import { colors, shadows } from "@/theme";
 import { GlassSurface } from "./glass-surface";
+import { sz } from "@/theme/scale";
 
 const TABS: { label: string; href: Href; path: string; icon: LucideIcon }[] = [
   { label: "Home", href: "/home", path: "/home", icon: House },
@@ -28,10 +29,10 @@ export function FloatingTabBar() {
 
   return (
     <View className="absolute inset-x-3 bottom-2 items-center" style={{ pointerEvents: "box-none" }}>
-      <View className="w-full max-w-[440px] rounded-[22px]" style={shadows.glass}>
+      <View className="w-full max-w-[27.5rem] rounded-[1.375rem]" style={shadows.glass}>
         <GlassSurface
-          className="flex-row items-center justify-around rounded-[22px] border border-glass-border px-1 pt-2"
-          style={{ paddingBottom: Math.max(16, insets.bottom) }}
+          className="flex-row items-center justify-around rounded-[1.375rem] border border-glass-border px-1 pt-2"
+          style={{ paddingBottom: Math.max(sz(16), insets.bottom) }}
         >
           {TABS.map((tab, i) => {
             const selected = i === active;
@@ -50,8 +51,8 @@ export function FloatingTabBar() {
                 }}
                 className="h-12 min-w-14 items-center justify-center gap-0.5 rounded-xl px-2 active:opacity-70"
               >
-                <Icon size={20} color={tint} fill={selected && tab.label === "Saved" ? tint : "none"} />
-                <Text className={cn("font-medium text-[9px] leading-[13px]", selected ? "text-primary" : "text-muted-foreground")}>
+                <Icon size={sz(20)} color={tint} fill={selected && tab.label === "Saved" ? tint : "none"} />
+                <Text className={cn("font-medium text-[0.5625rem] leading-[0.8125rem]", selected ? "text-primary" : "text-muted-foreground")}>
                   {tab.label}
                 </Text>
               </Pressable>

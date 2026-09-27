@@ -20,6 +20,7 @@ import { dates, findArtist, findService, services, slots, type BookingSelection 
 import { useSaj } from "@/store/saj-store";
 import { shadows } from "@/theme";
 import { cn } from "@/lib/utils";
+import { sz } from "@/theme/scale";
 
 /** "Book your moment": service & extras → date & time → details. */
 export default function Book() {
@@ -31,7 +32,7 @@ export default function Book() {
   const insets = useSafeAreaInsets();
   const headerHeight = useHeaderHeight();
   const { width } = useScreen();
-  const slotW = (width - 40 - 12) / 2;
+  const slotW = (width - sz(52)) / 2;
   const scroller = useRef<ScrollView>(null);
 
   const [step, setStep] = useState(1);
@@ -89,18 +90,18 @@ export default function Book() {
             ref={scroller}
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: 112 + insets.bottom }}
+            contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: sz(112) + insets.bottom }}
           >
             <Progress step={step} />
 
-            <GentleIn key={step} style={{ paddingHorizontal: 20, paddingVertical: 32 }}>
+            <GentleIn key={step} style={{ paddingHorizontal: sz(20), paddingVertical: sz(32) }}>
               {step === 1 ? (
                 <>
                   <Eyebrow>STEP ONE</Eyebrow>
                   <Text className="mt-2 font-display text-4xl leading-10">Make it yours.</Text>
 
                   <View className="mt-6 flex-row gap-4 rounded-2xl bg-card p-3" style={shadows.sm}>
-                    <Image source={service.image} contentFit="cover" style={{ width: 90, height: 112, borderRadius: 25.6 }} />
+                    <Image source={service.image} contentFit="cover" style={{ width: sz(90), height: sz(112), borderRadius: sz(25.6) }} />
                     <View className="flex-1 py-2">
                       <Text className="font-display text-xl leading-7">{service.name}</Text>
                       <Text className="mt-2 text-xs leading-4 text-muted-foreground">with {artist.studio}</Text>
@@ -127,7 +128,7 @@ export default function Book() {
 
                   <View className="mt-6">
                     <Text className="font-display text-2xl leading-8">{mode === "addons" ? "Add finishing touches" : "Build your package"}</Text>
-                    <Text className="mt-1 text-xs leading-[19.5px] text-muted-foreground">
+                    <Text className="mt-1 text-xs leading-[1.2188rem] text-muted-foreground">
                       {mode === "addons" ? "Choose any extras you’d like with this service." : "Combine services for a celebration planned your way."}
                     </Text>
                     <View className="mt-4 gap-2">
@@ -239,8 +240,8 @@ export default function Book() {
           </ScrollView>
         </View>
 
-        <GlassSurface className="border-t border-border px-3 pt-3" style={{ paddingBottom: Math.max(16, insets.bottom) }}>
-          <Button size="lg" className="w-full max-w-[400px] self-center" disabled={step === 2 && !time} iconRight={ArrowRight} onPress={next}>
+        <GlassSurface className="border-t border-border px-3 pt-3" style={{ paddingBottom: Math.max(sz(16), insets.bottom) }}>
+          <Button size="lg" className="w-full max-w-[25rem] self-center" disabled={step === 2 && !time} iconRight={ArrowRight} onPress={next}>
             {step === 3 ? "Confirm booking" : "Continue"}
           </Button>
         </GlassSurface>

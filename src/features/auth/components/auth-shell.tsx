@@ -12,6 +12,7 @@ import { Text } from "@/components/ui/text";
 import { images } from "@/data/catalogue";
 import { useScreen } from "@/hooks/use-screen";
 import { berry } from "@/theme";
+import { sz } from "@/theme/scale";
 
 type Props = {
   title: string;
@@ -61,25 +62,25 @@ export function AuthShell({ title, intro, children }: Props) {
 
       <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} className="flex-1">
         <ScrollView keyboardShouldPersistTaps="handled" showsVerticalScrollIndicator={false} contentContainerClassName="grow">
-          <View className="flex-row items-start justify-between px-6" style={{ paddingTop: insets.top + 20 }}>
+          <View className="flex-row items-start justify-between px-6" style={{ paddingTop: insets.top + sz(20) }}>
             <Logo light />
-            <Text className="text-xs leading-4 tracking-[1.5px] text-primary-foreground/80">WELCOME</Text>
+            <Text className="text-xs leading-4 tracking-[0.0938rem] text-primary-foreground/80">WELCOME</Text>
           </View>
 
           <View className="flex-1 justify-end" style={{ minHeight: height * 0.3 }}>
-            <GentleIn delay={200} style={{ paddingHorizontal: 24, paddingBottom: 28 }}>
-              <Text className="font-bold text-xs leading-4 tracking-[2.16px] text-primary-foreground/85">YOUR BRIDAL EDIT</Text>
-              <Text className="mt-3 font-display text-5xl leading-[50.4px] text-primary-foreground">{title}</Text>
+            <GentleIn delay={200} style={{ paddingHorizontal: sz(24), paddingBottom: sz(28) }}>
+              <Text className="font-bold text-xs leading-4 tracking-[0.135rem] text-primary-foreground/85">YOUR BRIDAL EDIT</Text>
+              <Text className="mt-3 font-display text-5xl leading-[3.15rem] text-primary-foreground">{title}</Text>
             </GentleIn>
           </View>
 
           <RiseIn delay={320}>
             <View
-              className="rounded-t-[34px] bg-background px-6 pt-7"
-              style={{ paddingBottom: insets.bottom + 24, boxShadow: "0px -18px 50px rgba(64, 3, 20, 0.35)" }}
+              className="rounded-t-[2.125rem] bg-background px-6 pt-7"
+              style={{ paddingBottom: insets.bottom + sz(24), boxShadow: "0px -18px 50px rgba(64, 3, 20, 0.35)" }}
             >
               <View className="mb-6 h-1 w-10 self-center rounded-full bg-border" />
-              <Text className="mb-6 text-sm leading-[22.75px] text-muted-foreground">{intro}</Text>
+              <Text className="mb-6 text-sm leading-[1.4219rem] text-muted-foreground">{intro}</Text>
               {children}
             </View>
           </RiseIn>

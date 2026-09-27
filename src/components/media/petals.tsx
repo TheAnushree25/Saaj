@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useScreen } from "@/hooks/use-screen";
 import Animated, { Easing, interpolate, useAnimatedStyle, useSharedValue, withDelay, withRepeat, withTiming } from "react-native-reanimated";
 import { ivory } from "@/theme";
+import { sz } from "@/theme/scale";
 
 type PetalProps = { left: `${number}%`; top: number; size: number; alpha: number; delay: number };
 
@@ -33,11 +34,11 @@ function Petal({ left, top, size, alpha, delay }: PetalProps) {
 export function Petals() {
   return (
     <>
-      <Petal left="15%" top={0} size={24} alpha={0.3} delay={0} />
-      <Petal left="75%" top={-160} size={18} alpha={0.2} delay={2000} />
-      <Petal left="42%" top={-60} size={14} alpha={0.22} delay={3600} />
-      <Petal left="88%" top={-20} size={12} alpha={0.18} delay={5200} />
-      <Petal left="6%" top={-120} size={16} alpha={0.2} delay={1200} />
+      <Petal left="15%" top={0} size={sz(24)} alpha={0.3} delay={0} />
+      <Petal left="75%" top={-160} size={sz(18)} alpha={0.2} delay={2000} />
+      <Petal left="42%" top={-60} size={sz(14)} alpha={0.22} delay={3600} />
+      <Petal left="88%" top={-20} size={sz(12)} alpha={0.18} delay={5200} />
+      <Petal left="6%" top={-120} size={sz(16)} alpha={0.2} delay={1200} />
     </>
   );
 }

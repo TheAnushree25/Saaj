@@ -6,6 +6,7 @@ import { Text } from "@/components/ui/text";
 import { artists } from "@/data/catalogue";
 import { Reel } from "@/features/explore/components/reel";
 import { useSaj } from "@/store/saj-store";
+import { sz } from "@/theme/scale";
 
 /** Full-screen vertical "Reels" of each artist's work. */
 export default function Explore() {
@@ -46,10 +47,10 @@ export default function Explore() {
         />
       ) : null}
 
-      <View className="absolute inset-x-0 top-0 flex-row items-center justify-between px-5" style={{ paddingTop: insets.top + 24, pointerEvents: "none" }}>
+      <View className="absolute inset-x-0 top-0 flex-row items-center justify-between px-5" style={{ paddingTop: insets.top + sz(24), pointerEvents: "none" }}>
         <Text className="font-display text-2xl leading-8 text-primary-foreground">Reels</Text>
         <View className="rounded-full border border-primary-foreground/25 bg-primary-foreground/15 px-3 py-1.5">
-          <Text className="font-bold text-[10px] leading-[15px] tracking-[1.8px] text-primary-foreground">BRIDAL EDIT</Text>
+          <Text className="font-bold text-[0.625rem] leading-[0.9375rem] tracking-[0.1125rem] text-primary-foreground">BRIDAL EDIT</Text>
         </View>
       </View>
     </View>

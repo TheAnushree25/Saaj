@@ -12,6 +12,7 @@ import { TrendingLooks } from "@/features/home/components/trending-looks";
 import { UpcomingBooking } from "@/features/home/components/upcoming-booking";
 import { greeting } from "@/lib/format";
 import { useSaj } from "@/store/saj-store";
+import { sz } from "@/theme/scale";
 
 const openArtist = (a: Artist) => router.push({ pathname: "/artist/[id]", params: { id: String(a.id) } });
 const openService = (s: Service, artistId = 1) =>
@@ -37,12 +38,12 @@ export default function Home() {
         ref={scroller}
         showsVerticalScrollIndicator={false}
         keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: 112 }}
+        contentContainerStyle={{ paddingTop: headerHeight, paddingBottom: sz(112) }}
       >
         <GentleIn>
           <View className="px-5 pb-6 pt-6">
-            <Text className="font-bold text-[11px] leading-[16.5px] tracking-[2.2px] text-primary">{greeting()}, BRIDE-TO-BE</Text>
-            <Text className="mt-3 max-w-sm font-display text-[40px] leading-[41.6px]">Everything she needs for her big day.</Text>
+            <Text className="font-bold text-[0.6875rem] leading-[1.0312rem] tracking-[0.1375rem] text-primary">{greeting()}, BRIDE-TO-BE</Text>
+            <Text className="mt-3 max-w-sm font-display text-[2.5rem] leading-[2.6rem]">Everything she needs for her big day.</Text>
           </View>
 
           <UpcomingBooking booking={booking} onPlan={() => router.navigate("/explore")} onTrack={() => router.push("/tracking")} />
