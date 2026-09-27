@@ -1,0 +1,40 @@
+name: Bug report
+description: Something in the app is broken or looks wrong
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect to see?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open Home
+        2. Tap "Rhea Kapoor Beauty"
+        3. …
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Expo Go on Android
+        - Installed test build (APK)
+        - Laptop web preview
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Phone and Android version
+      placeholder: e.g. Redmi Note 12, Android 14
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or screen recording

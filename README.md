@@ -1,11 +1,25 @@
 # Saaj — bridal booking app
 
+[![CI](https://github.com/TheAnushree25/Saaj/actions/workflows/ci.yml/badge.svg)](https://github.com/TheAnushree25/Saaj/actions/workflows/ci.yml)
+
 An Android app for booking bridal beauty artists, built with the stack from the
 *Bridal Booking App Build Guide*: **Expo SDK 57 (React Native) · Expo Router ·
 NativeWind · Supabase · Razorpay · EAS Build**.
 
 **Current phase: UI only.** Every screen of the SAJ design is built, running on
 mock data from `src/data/catalogue.ts`. Nothing talks to a server yet.
+
+## Setup
+
+```bash
+git clone https://github.com/TheAnushree25/Saaj.git
+cd Saaj
+npm ci
+cp .env.example .env
+```
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the branch and PR workflow and
+[SECURITY.md](SECURITY.md) for how keys are handled.
 
 ## See it on your laptop (phone preview)
 
@@ -61,6 +75,7 @@ tailwind.config.js      The SAJ colour palette, fonts and corner radii
 | Command | What it does |
 | --- | --- |
 | `npm run typecheck` | TypeScript check across the project |
+| `npm run lint` | ESLint with Expo's rules |
 | `npm run check:styles` | Compiles the styles for Android and flags missing classes |
 | `npx expo start -c` | Start with a clean cache (after config changes) |
 

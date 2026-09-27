@@ -1,0 +1,21 @@
+# Store and check out text files with LF endings on every OS, so diffs never
+# show whole files changing because someone edited on Windows.
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets: never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.ttf binary
+*.otf binary
+*.mp4 binary
+*.aab binary
+*.apk binary
+*.jks binary

@@ -18,7 +18,7 @@ import { inr } from "@/lib/format";
 import { hapticSuccess, hapticTap } from "@/lib/haptics";
 import { dates, findArtist, findService, services, slots, type BookingSelection } from "@/data/catalogue";
 import { useSaj } from "@/store/saj-store";
-import { colors, shadows } from "@/theme";
+import { shadows } from "@/theme";
 import { cn } from "@/lib/utils";
 
 /** "Book your moment": service & extras → date & time → details. */

@@ -1,0 +1,9 @@
+# Keeps the CI actions current. App dependencies are upgraded with Expo's own
+# tooling instead (`npx expo install --fix`), because Expo pins versions per SDK
+# and generic bumps would break the app.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
