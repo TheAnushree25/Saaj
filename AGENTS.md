@@ -25,8 +25,12 @@ Run lint and typecheck before declaring any task done.
 
 ## Navigation & Routing
 
-- Use **Expo Router** for all navigation. Routes live in `app/` (project root, matching the build guide — not `src/app/`) — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code in `components/` and `lib/`.
-- Styling is NativeWind v4 + Tailwind 3.4 (`tailwind.config.js`, `global.css`). Fonts are one family per weight: use `font-sans` / `font-medium` / `font-semibold` / `font-bold` / `font-display`, never a fontWeight. Use `Text` from `components/ui/text.tsx`, not React Native's, so every string gets the body font and colour.
+- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep route files thin; put UI in `src/features/<feature>/components` (screen-specific) or `src/components` (shared: `ui/`, `layout/`, `brand/`, `media/`). Data in `src/data`, state in `src/store`, colours/shadows in `src/theme`, helpers in `src/lib`, hooks in `src/hooks`.
+- Styling is NativeWind v4 + Tailwind 3.4 (`tailwind.config.js`, `global.css`). Fonts are one family per weight: use `font-sans` / `font-medium` / `font-semibold` / `font-bold` / `font-display`, never a fontWeight. Use `Text` from `src/components/ui/text.tsx`, not React Native's, so every string gets the body font and colour.
+- **Never put `className` on a Reanimated `Animated.*` component** (and never register one with `cssInterop`): on Android the className shim swallows animated styles and collapses layouts. Animated components take `style` only; put classes on a plain View inside or around them. Press feedback uses NativeWind `active:` classes on plain `Pressable`s.
+- Use `useScreen()` (src/hooks/use-screen.tsx), not `useWindowDimensions`, for layout maths, so the laptop phone-frame preview sizes correctly.
+- No live blur on Android (`BlurTargetView` is experimental); `GlassSurface` handles platform differences.
+- `npm run check:styles` compiles the Tailwind classes for Android the way Metro does and reports missing ones.
 - Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
 - Docs: https://docs.expo.dev/router/introduction.md
 

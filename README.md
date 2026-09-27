@@ -5,61 +5,66 @@ An Android app for booking bridal beauty artists, built with the stack from the
 NativeWind · Supabase · Razorpay · EAS Build**.
 
 **Current phase: UI only.** Every screen of the SAJ design is built, running on
-mock data from `lib/saj-data.ts`. Nothing talks to a server yet.
+mock data from `src/data/catalogue.ts`. Nothing talks to a server yet.
 
-## Run it on your phone
-
-1. Install **Expo Go** from the Play Store on your Android phone.
-2. Connect the phone and this laptop to the **same Wi-Fi**.
-3. In a terminal in this folder:
-
-   ```bash
-   npx expo start
-   ```
-
-4. Open Expo Go and scan the QR code shown in the terminal. The app opens.
-   Edit any file and save — the phone updates in about a second.
-
-If the QR scan hangs (different networks or Windows Firewall), use
-`npx expo start --tunnel` instead.
-
-## Look at it in a browser
+## See it on your laptop (phone preview)
 
 ```bash
 npx expo start --web
 ```
 
-Then open the page it prints. Use your browser's phone view (F12 → device
-toolbar) for the right proportions. The phone is the real target; the browser is
-just a quick preview.
+Open the address it prints (usually http://localhost:8081). On a laptop the app
+is drawn inside a 390 × 844 phone frame with the same fonts, colours and
+layout as the phone. Save any file and the preview updates.
 
-## When something looks wrong
+## See it on your phone
 
-| Symptom | Fix |
-| --- | --- |
-| Screens unstyled, classes do nothing | `npx expo start -c` (clears Metro's cache) |
-| Changed a config file, nothing changed | `npx expo start -c` |
-| Want to see the opening screen again | Expo Go → long-press the app → clear data, or reinstall |
+1. Install **Expo Go** from the Play Store.
+2. Phone and laptop on the **same Wi-Fi**.
+3. Run `npx expo start` and scan the QR code with Expo Go.
+
+After changing config files (`tailwind.config.js`, `babel.config.js`,
+`metro.config.js`, `.env`) always restart with a clean cache:
+
+```bash
+npx expo start -c
+```
 
 ## Where things live
 
 ```
-app/                      Screens. Every file here is a route (Expo Router).
-  index.tsx               Opening screen (SAJ + Begin)
-  (auth)/sign-in.tsx      "Let's begin beautifully."
-  (bride)/(tabs)/         Home, Explore (reels), Bookings, Saved, Profile
-  (bride)/artist/[id]     Artist portfolio
-  (bride)/service/[id]    Service detail
-  (bride)/book.tsx        3-step booking flow
-  (bride)/confirmation    "Your moment is booked."
-  (bride)/tracking.tsx    Booking status
-components/               Shared UI (buttons, header, glass tab bar, cards)
-lib/                      Data, colours, saved state, helpers
-assets/images/            Bridal photos, app icon, splash
-tailwind.config.js        The SAJ colour palette, fonts and corner radii
+src/
+  app/                  Routes only (Expo Router): every file is a screen
+    index.tsx           Opening screen (SAJ + Begin)
+    (auth)/             Sign in, create account
+    (bride)/(tabs)/     Home, Explore (reels), Bookings, Saved, Profile
+    (bride)/…           Artist portfolio, service, booking flow, confirmation, tracking
+  features/             Screen-specific UI, grouped by feature
+    auth/               Form fields, cinematic auth shell, schemas (Zod)
+    home/               Trending carousel, services grid, search, upcoming booking
+    explore/            Full-screen reel
+  components/           Shared UI
+    ui/                 Text, Button, Input, motion, pressables
+    layout/             Header, floating tab bar, glass surface, phone frame
+    brand/ media/       Logo; lightbox, petals, frosted glass
+  data/                 Mock catalogue (replaced by Supabase queries later)
+  store/                App state saved on the device (AsyncStorage)
+  theme/                Colours and shadows for code that can't use classes
+  lib/ hooks/           Helpers (format, haptics, cn) and hooks
+assets/images/          Bridal photos, app icon, splash
+scripts/                Dev tools (check-native-styles)
+tailwind.config.js      The SAJ colour palette, fonts and corner radii
 ```
+
+## Handy commands
+
+| Command | What it does |
+| --- | --- |
+| `npm run typecheck` | TypeScript check across the project |
+| `npm run check:styles` | Compiles the styles for Android and flags missing classes |
+| `npx expo start -c` | Start with a clean cache (after config changes) |
 
 ## Next
 
 Continue the build guide from **Step 6 (Supabase)**. Fill in `.env` then, and
-replace the mock data in `lib/saj-data.ts` with real queries in Step 15.
+replace the mock data in `src/data/catalogue.ts` with real queries in Step 15.
