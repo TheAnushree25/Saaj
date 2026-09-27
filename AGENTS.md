@@ -25,7 +25,8 @@ Run lint and typecheck before declaring any task done.
 
 ## Navigation & Routing
 
-- Use **Expo Router** for all navigation. Routes live in `src/app/` — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code (components, hooks, utils) outside `src/app/`.
+- Use **Expo Router** for all navigation. Routes live in `app/` (project root, matching the build guide — not `src/app/`) — every file there is a screen, `_layout.tsx` files define navigators. Keep non-route code in `components/` and `lib/`.
+- Styling is NativeWind v4 + Tailwind 3.4 (`tailwind.config.js`, `global.css`). Fonts are one family per weight: use `font-sans` / `font-medium` / `font-semibold` / `font-bold` / `font-display`, never a fontWeight. Use `Text` from `components/ui/text.tsx`, not React Native's, so every string gets the body font and colour.
 - Import `Link`, `router`, and `useLocalSearchParams` from `expo-router`.
 - Docs: https://docs.expo.dev/router/introduction.md
 
