@@ -31,6 +31,12 @@ Open the address it prints (usually http://localhost:8081). On a laptop the app
 is drawn inside a 390 × 844 phone frame with the same fonts, colours and
 layout as the phone. Save any file and the preview updates.
 
+## Live web preview (Vercel)
+
+Every push to `main` deploys the web version to Vercel automatically, with
+the same phone-frame layout (`vercel.json`: `npx expo export --platform web`
+into `dist/`). Pull requests get their own preview link.
+
 ## See it on your phone
 
 1. Install **Expo Go** from the Play Store.

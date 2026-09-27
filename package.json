@@ -2,6 +2,9 @@
   "name": "saaj",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@expo-google-fonts/dm-serif-display": "^0.4.2",
     "@expo-google-fonts/manrope": "^0.4.2",
