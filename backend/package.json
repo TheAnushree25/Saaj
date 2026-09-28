@@ -18,6 +18,7 @@
     "db:migrate": "tsx --env-file-if-exists=.env src/db/migrate.ts",
     "db:migrate:prod": "node --env-file-if-exists=.env dist/db/migrate.js",
     "db:seed": "tsx --env-file-if-exists=.env src/db/seed.ts",
+    "db:seed:demo": "node --env-file-if-exists=.env dist/db/seed-demo.js",
     "db:studio": "drizzle-kit studio",
     "admin:create": "tsx --env-file-if-exists=.env src/scripts/create-admin.ts",
     "pay:simulate": "tsx --env-file-if-exists=.env src/scripts/simulate-payment.ts"

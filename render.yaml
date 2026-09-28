@@ -10,8 +10,9 @@ services:
     rootDir: backend
     # NODE_ENV=production would make npm skip devDependencies, but TypeScript is one.
     buildCommand: npm ci --include=dev && npm run build
-    # Apply any new database migrations, then start the server.
-    startCommand: npm run db:migrate:prod && npm start
+    # Apply any new database migrations, fill a brand-new database with the demo
+    # data (only when it is empty), then start the server.
+    startCommand: npm run db:migrate:prod && npm run db:seed:demo && npm start
     healthCheckPath: /health/ready
     envVars:
       - key: NODE_ENV
