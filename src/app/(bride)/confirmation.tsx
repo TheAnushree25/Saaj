@@ -1,38 +1,44 @@
-import { Redirect, router } from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { Check } from "lucide-react-native";
 import { ScrollView, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FocusStatusBar } from "@/components/layout/focus-status-bar";
-import { GentleIn, PopIn } from "@/components/ui/motion";
 import { Petals } from "@/components/media/petals";
 import { Button } from "@/components/ui/button";
+import { GentleIn, PopIn } from "@/components/ui/motion";
+import { LoadingState, messageOf } from "@/components/ui/states";
 import { Text } from "@/components/ui/text";
-import { inr } from "@/lib/format";
-import { useSaj } from "@/store/saj-store";
-import { colors } from "@/theme";
+import { statusLabel } from "@/features/booking/status";
+import { clockTime, longDate, rupees } from "@/lib/format";
+import { useBooking } from "@/lib/queries";
 import { cn } from "@/lib/utils";
+import { colors } from "@/theme";
 import { sz } from "@/theme/scale";
 
 /** "Your moment is booked." */
 export default function Confirmation() {
-  const { booking } = useSaj();
+  const { id } = useLocalSearchParams<{ id?: string }>();
   const insets = useSafeAreaInsets();
-  if (!booking) return <Redirect href="/home" />;
-
-  const rows: [string, string][] = [
-    ["Service", booking.selection.label],
-    ["Includes", booking.selection.items.join(", ")],
-    ["Total", inr(booking.selection.total)],
-    ["Date & time", `${booking.date} · ${booking.time}`],
-    ["Status", "CONFIRMED"],
-    ["Artist", booking.artist],
-    ["Location", booking.location],
-  ];
+  const { data: booking, isPending, error } = useBooking(id);
+  if (!id) return <Redirect href="/home" />;
 
   const home = () => {
     router.dismissAll();
     router.navigate("/home");
   };
+
+  const rows: [string, string][] = booking
+    ? [
+        ["Service", booking.title],
+        ["Includes", booking.items.map((item) => item.name).join(", ")],
+        ["Total", rupees(booking.totalPaise)],
+        ["Paid now", rupees(booking.paidPaise)],
+        ["Date & time", `${longDate(booking.startsAt)} · ${clockTime(booking.startsAt)}`],
+        ["Status", statusLabel(booking.status)],
+        ["Artist", booking.artist?.studioName ?? ""],
+        ["Venue", booking.venue],
+      ]
+    : [];
 
   return (
     <View className="flex-1 overflow-hidden bg-primary">
@@ -52,18 +58,31 @@ export default function Confirmation() {
 
           <GentleIn delay={150} style={{ width: "100%", alignItems: "center" }}>
             <Text className="mt-7 text-center font-display text-4xl leading-10 text-primary-foreground">Your moment is booked.</Text>
-            <Text className="mt-3 text-xs leading-4 tracking-[0.12rem] text-primary-foreground/70">BOOKING ID · SS-120426</Text>
+            {booking ? (
+              <Text className="mt-3 text-xs leading-4 tracking-[0.12rem] text-primary-foreground/70">BOOKING ID · {booking.ref}</Text>
+            ) : null}
 
-            <View className="mt-8 w-full rounded-3xl border border-primary-foreground/15 bg-primary-foreground/10 p-5">
-              {rows.map(([label, value], i) => (
-                <View key={label} className={cn("flex-row py-3", i < rows.length - 1 && "border-b border-primary-foreground/10")}>
-                  <Text className="w-[5.9375rem] text-xs leading-4 text-primary-foreground/60">{label}</Text>
-                  <Text className="flex-1 text-right font-bold text-sm leading-5 text-primary-foreground">{value}</Text>
-                </View>
-              ))}
-            </View>
+            {isPending ? (
+              <LoadingState dark className="py-16" />
+            ) : !booking ? (
+              <Text className="mt-8 text-center text-sm leading-5 text-primary-foreground/80">{messageOf(error)}</Text>
+            ) : (
+              <View className="mt-8 w-full rounded-3xl border border-primary-foreground/15 bg-primary-foreground/10 p-5">
+                {rows.map(([label, value], i) => (
+                  <View key={label} className={cn("flex-row py-3", i < rows.length - 1 && "border-b border-primary-foreground/10")}>
+                    <Text className="w-[5.9375rem] text-xs leading-4 text-primary-foreground/60">{label}</Text>
+                    <Text className="flex-1 text-right font-bold text-sm leading-5 text-primary-foreground">{value}</Text>
+                  </View>
+                ))}
+              </View>
+            )}
 
-            <Button variant="glass" size="lg" className="mt-6 w-full" onPress={() => router.replace({ pathname: "/tracking", params: { from: "confirmation" } })}>
+            <Button
+              variant="glass"
+              size="lg"
+              className="mt-6 w-full"
+              onPress={() => router.replace({ pathname: "/tracking", params: { id, from: "confirmation" } })}
+            >
               View booking
             </Button>
             <Button variant="ghost" className="mt-2" textClassName="text-primary-foreground" onPress={home}>

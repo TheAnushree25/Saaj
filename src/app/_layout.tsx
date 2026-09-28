@@ -15,6 +15,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { PhoneFrame } from "@/components/layout/phone-frame";
+import { AuthProvider, useAuth } from "@/features/auth/auth-provider";
 import { SajProvider, useSaj } from "@/store/saj-store";
 import { colors } from "@/theme";
 
@@ -44,11 +45,13 @@ export default function RootLayout() {
   return (
     <GestureHandlerRootView style={{ flex: 1, backgroundColor: colors.background }}>
       <QueryClientProvider client={queryClient}>
-        <SajProvider>
-          <PhoneFrame>
-            <AppStack ready={fontsLoaded || fontError != null} />
-          </PhoneFrame>
-        </SajProvider>
+        <AuthProvider>
+          <SajProvider>
+            <PhoneFrame>
+              <AppStack ready={fontsLoaded || fontError != null} />
+            </PhoneFrame>
+          </SajProvider>
+        </AuthProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>
   );
@@ -56,7 +59,9 @@ export default function RootLayout() {
 
 function AppStack({ ready }: { ready: boolean }) {
   const { hydrated } = useSaj();
-  const show = ready && hydrated;
+  const { status } = useAuth();
+  // Keep the splash up until we know whether someone is signed in: no flash of the wrong screen.
+  const show = ready && hydrated && status !== "loading";
 
   useEffect(() => {
     if (show) SplashScreen.hideAsync().catch(() => {});

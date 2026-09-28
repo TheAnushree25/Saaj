@@ -1,0 +1,42 @@
+# Render Blueprint: the Saaj API and its Postgres database, for testing and demos.
+# Render dashboard -> New -> Blueprint -> pick this repository. Render reads this
+# file, creates both, and redeploys the API on every push to the branch.
+services:
+  - type: web
+    name: saaj-api
+    runtime: node
+    region: singapore # the closest Render region to India
+    plan: free # sleeps after 15 idle minutes; "starter" stays awake
+    rootDir: backend
+    # NODE_ENV=production would make npm skip devDependencies, but TypeScript is one.
+    buildCommand: npm ci --include=dev && npm run build
+    # Apply any new database migrations, then start the server.
+    startCommand: npm run db:migrate:prod && npm start
+    healthCheckPath: /health/ready
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: STAGING
+        value: "true"
+      - key: TRUST_PROXY
+        value: "true"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: saaj-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      # Optional until you have them: fill in on the service's Environment page.
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: RAZORPAY_WEBHOOK_SECRET
+        sync: false
+
+databases:
+  - name: saaj-db
+    region: singapore
+    plan: free # free databases are deleted after 30 days; upgrade to keep one
+    databaseName: saaj
+    user: saaj

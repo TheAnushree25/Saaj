@@ -7,6 +7,7 @@ import { FocusStatusBar } from "@/components/layout/focus-status-bar";
 import { FadeInView, GentleIn } from "@/components/ui/motion";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
+import { useAuth } from "@/features/auth/auth-provider";
 import { useSaj } from "@/store/saj-store";
 import { ivory } from "@/theme";
 import { sz } from "@/theme/scale";
@@ -17,7 +18,8 @@ import { sz } from "@/theme/scale";
  */
 export default function Opening() {
   const { onboarded } = useSaj();
-  if (onboarded) return <Redirect href="/home" />;
+  const { status } = useAuth();
+  if (onboarded || status === "signed-in") return <Redirect href="/home" />;
 
   return (
     <View className="flex-1 items-center justify-center overflow-hidden bg-primary px-8">

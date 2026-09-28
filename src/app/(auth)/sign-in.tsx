@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Alert, Pressable, TextInput, View } from "react-native";
@@ -12,22 +12,26 @@ import { OrDivider } from "@/features/auth/components/or-divider";
 import { ShimmerButton } from "@/features/auth/components/shimmer-button";
 import { signInSchema, type SignInInput } from "@/features/auth/schemas";
 import { useShake } from "@/features/auth/use-shake";
+import { useAuth } from "@/features/auth/auth-provider";
+import { leaveAuth, switchAuth } from "@/features/auth/auth-navigation";
+import { showServerError } from "@/features/auth/server-errors";
 import { hapticImpact, hapticSuccess } from "@/lib/haptics";
 import { useSaj } from "@/store/saj-store";
 
-/**
- * Sign in with mobile number + password. The form validates for real; the
- * submit simply enters the app until Supabase auth is added (guide step 13).
- */
+/** Sign in with mobile number + password, against the Saaj API. */
 export default function SignIn() {
+  const { then } = useLocalSearchParams<{ then?: string }>();
   const { finishOnboarding } = useSaj();
+  const { signIn } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const passwordRef = useRef<TextInput>(null);
   const { style: shakeStyle, shake } = useShake();
 
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<SignInInput>({
     resolver: zodResolver(signInSchema),
@@ -37,13 +41,21 @@ export default function SignIn() {
 
   const enter = () => {
     finishOnboarding();
-    router.replace("/home");
+    leaveAuth(then);
   };
 
   const submit = handleSubmit(
-    async () => {
+    async (values) => {
+      setFormError(null);
+      try {
+        await signIn(values);
+      } catch (error) {
+        hapticImpact();
+        shake();
+        setFormError(showServerError(error, ["phone", "password"], setError));
+        return;
+      }
       hapticSuccess();
-      await new Promise((r) => setTimeout(r, 700));
       enter();
     },
     () => {
@@ -100,6 +112,12 @@ export default function SignIn() {
         />
       </Animated.View>
 
+      {formError ? (
+        <Text accessibilityLiveRegion="polite" className="-mt-1 mb-3 text-xs leading-4 text-[#C0392B]">
+          {formError}
+        </Text>
+      ) : null}
+
       <Pressable
         onPress={() => Alert.alert("Forgot password?", "Password reset by SMS is coming soon. Until then, you can explore SAJ as a guest.")}
         hitSlop={8}
@@ -116,7 +134,7 @@ export default function SignIn() {
 
       <View className="mt-6 flex-row justify-center">
         <Text className="text-sm leading-5 text-muted-foreground">New to SAJ? </Text>
-        <Pressable onPress={() => router.push("/sign-up")} hitSlop={8}>
+        <Pressable onPress={() => switchAuth("/sign-up", then)} hitSlop={8}>
           <Text className="font-semibold text-sm leading-5 text-primary">Create account</Text>
         </Pressable>
       </View>

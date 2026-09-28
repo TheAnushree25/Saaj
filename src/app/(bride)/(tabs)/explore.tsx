@@ -2,18 +2,21 @@ import { useState } from "react";
 import { FlatList, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { FocusStatusBar } from "@/components/layout/focus-status-bar";
+import { ErrorState, LoadingState } from "@/components/ui/states";
 import { Text } from "@/components/ui/text";
-import { artists } from "@/data/catalogue";
 import { Reel } from "@/features/explore/components/reel";
-import { useSaj } from "@/store/saj-store";
+import { useSaved } from "@/features/saved/use-saved";
+import { useLooks } from "@/lib/queries";
 import { sz } from "@/theme/scale";
 
 /** Full-screen vertical "Reels" of each artist's work. */
 export default function Explore() {
   const insets = useSafeAreaInsets();
   const [size, setSize] = useState({ width: 0, height: 0 });
-  const [liked, setLiked] = useState<number[]>([]);
-  const { saved, toggleSave } = useSaj();
+  const [liked, setLiked] = useState<string[]>([]);
+  const saved = useSaved();
+  const looks = useLooks();
+  const items = looks.data ?? [];
 
   return (
     <View
@@ -21,10 +24,16 @@ export default function Explore() {
       onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}
     >
       <FocusStatusBar style="light" />
-      {size.height > 0 ? (
+      {looks.isPending ? (
+        <LoadingState dark className="flex-1" />
+      ) : looks.isError ? (
+        <View className="flex-1 justify-center bg-background">
+          <ErrorState error={looks.error} onRetry={() => void looks.refetch()} />
+        </View>
+      ) : size.height > 0 ? (
         <FlatList
-          data={artists}
-          keyExtractor={(a) => String(a.id)}
+          data={items}
+          keyExtractor={(look) => look.id}
           pagingEnabled
           showsVerticalScrollIndicator={false}
           decelerationRate="fast"
@@ -33,15 +42,16 @@ export default function Explore() {
           windowSize={3}
           renderItem={({ item, index }) => (
             <Reel
-              artist={item}
+              look={item}
               index={index}
+              total={items.length}
               width={size.width}
               height={size.height}
               topInset={insets.top}
               liked={liked.includes(item.id)}
-              saved={saved.includes(item.id)}
+              saved={saved.isSaved(item.artist.id)}
               onLike={() => setLiked((o) => (o.includes(item.id) ? o.filter((x) => x !== item.id) : [...o, item.id]))}
-              onSave={() => toggleSave(item.id)}
+              onSave={() => saved.toggle(item.artist)}
             />
           )}
         />
