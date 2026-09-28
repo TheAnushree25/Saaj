@@ -2,6 +2,7 @@ import { Image, type ImageContentPosition } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { useState, type ReactNode } from "react";
 import { StyleSheet, View, type StyleProp, type ViewStyle } from "react-native";
+import type { Picture } from "@/data/catalogue";
 
 export type Gradient = {
   colors: readonly [string, string, ...string[]];
@@ -12,7 +13,7 @@ export type Gradient = {
 
 type Props = {
   /** The photo this panel floats on. */
-  source: number;
+  source: Picture;
   /** Size of that photo's container. The panel must be its direct child. */
   frame: { width: number; height: number };
   contentPosition?: ImageContentPosition;

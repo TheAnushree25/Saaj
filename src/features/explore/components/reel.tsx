@@ -9,7 +9,8 @@ import { Frosted, type Gradient } from "@/components/media/frosted";
 import { Button } from "@/components/ui/button";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { Text } from "@/components/ui/text";
-import { artists, type Artist } from "@/data/catalogue";
+import { pictureOf } from "@/data/catalogue";
+import type { Look } from "@/lib/api-types";
 import { hapticImpact } from "@/lib/haptics";
 import { berry, colors, ivory, shadows } from "@/theme";
 import { sz } from "@/theme/scale";
@@ -26,8 +27,9 @@ const REEL_GRADIENT: Gradient = {
 };
 
 type ReelProps = {
-  artist: Artist;
+  look: Look;
   index: number;
+  total: number;
   width: number;
   height: number;
   topInset: number;
@@ -38,17 +40,20 @@ type ReelProps = {
 };
 
 /** One full-screen reel: the photo, the side actions and the frosted artist card. */
-export function Reel({ artist, index, width, height, topInset, liked, saved, onLike, onSave }: ReelProps) {
+export function Reel({ look, index, total, width, height, topInset, liked, saved, onLike, onSave }: ReelProps) {
+  const { artist } = look;
   const position = POSITIONS[index % 3];
+  const photo = pictureOf(look.imageUrl, look.id);
+  const tagline = look.caption ?? artist.tagline;
 
   const share = () => {
-    Share.share({ message: `${artist.studio} on SAJ — “${artist.tagline}”` }).catch(() => {});
+    Share.share({ message: tagline ? `${artist.studioName} on SAJ — “${tagline}”` : `${artist.studioName} on SAJ` }).catch(() => {});
   };
 
   return (
     <View style={{ width, height }} className="overflow-hidden">
       <Image
-        source={artist.image}
+        source={photo}
         contentFit="cover"
         contentPosition={position}
         transition={200}
@@ -61,27 +66,18 @@ export function Reel({ artist, index, width, height, topInset, liked, saved, onL
           label={liked ? "Unlike" : "Like"}
           icon={Heart}
           active={liked}
-          caption={String(artist.reviews * 7 + (liked ? 1 : 0))}
+          caption={liked ? "Liked" : "Like"}
           onPress={() => {
             hapticImpact();
             onLike();
           }}
         />
-        <ReelAction
-          label={saved ? "Unsave" : "Save"}
-          icon={Sparkles}
-          active={saved}
-          caption={saved ? "Saved" : "Save"}
-          onPress={() => {
-            hapticImpact();
-            onSave();
-          }}
-        />
+        <ReelAction label={saved ? "Unsave" : "Save"} icon={Sparkles} active={saved} caption={saved ? "Saved" : "Save"} onPress={onSave} />
         <ReelAction label="Share" icon={Share2} caption="Share" onPress={share} />
       </View>
 
       <Frosted
-        source={artist.image}
+        source={photo}
         frame={{ width, height }}
         contentPosition={position}
         imageScale={1.05}
@@ -92,25 +88,30 @@ export function Reel({ artist, index, width, height, topInset, liked, saved, onL
         style={shadows.luxury}
       >
         <View className="flex-row items-center gap-3">
-          <Image source={artist.image} contentFit="cover" style={{ width: sz(40), height: sz(40), borderRadius: sz(20), borderWidth: 1, borderColor: ivory(0.5) }} />
+          <Image
+            source={pictureOf(artist.profileImageUrl, artist.id)}
+            contentFit="cover"
+            style={{ width: sz(40), height: sz(40), borderRadius: sz(20), borderWidth: 1, borderColor: ivory(0.5) }}
+          />
           <View className="min-w-0 flex-1">
             <Text numberOfLines={1} className="font-display text-xl leading-[1.5625rem] text-primary-foreground">
-              {artist.studio}
+              {artist.studioName}
             </Text>
             <View className="flex-row items-center gap-1">
               <Star size={sz(12)} color={ivory(0.75)} fill={ivory(0.75)} />
               <Text className="text-[0.6875rem] leading-[1.0312rem] text-primary-foreground/75">
-                {artist.rating} · {artist.category} · {artist.location}
+                {artist.rating ?? "New"} · {artist.city}
+                {look.occasion ? ` · ${look.occasion.charAt(0).toUpperCase()}${look.occasion.slice(1)}` : ""}
               </Text>
             </View>
           </View>
         </View>
-        <Text className="mt-3 text-sm leading-[1.2031rem] text-primary-foreground/90">{artist.tagline}</Text>
+        {tagline ? <Text className="mt-3 text-sm leading-[1.2031rem] text-primary-foreground/90">{tagline}</Text> : null}
         <Button
           variant="ivory"
           className="mt-3 h-11 w-full rounded-full"
           iconRight={ArrowRight}
-          onPress={() => router.push({ pathname: "/artist/[id]", params: { id: String(artist.id) } })}
+          onPress={() => router.push({ pathname: "/artist/[id]", params: { id: artist.id } })}
         >
           View portfolio
         </Button>
@@ -120,7 +121,7 @@ export function Reel({ artist, index, width, height, topInset, liked, saved, onL
         className="absolute right-5 z-10 font-semibold text-[0.625rem] leading-[0.9375rem] tracking-[0.125rem] text-primary-foreground/70"
         style={{ top: topInset + sz(64) }}
       >
-        {String(index + 1).padStart(2, "0")} / {String(artists.length).padStart(2, "0")}
+        {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
       </Text>
     </View>
   );

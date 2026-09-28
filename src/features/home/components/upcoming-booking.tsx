@@ -1,16 +1,17 @@
 import { ArrowRight, CalendarDays, Clock3 } from "lucide-react-native";
 import { View } from "react-native";
 import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
-import { inr } from "@/lib/format";
-import type { Booking } from "@/store/saj-store";
-import { colors, ivory, shadows } from "@/theme";
 import { Button } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { PressableScale } from "@/components/ui/pressable-scale";
 import { Text } from "@/components/ui/text";
+import type { BookingCard } from "@/lib/api-types";
+import { clockTime, longDate, rupees } from "@/lib/format";
+import { colors, ivory, shadows } from "@/theme";
 import { sz } from "@/theme/scale";
+import { statusLabel } from "@/features/booking/status";
 
-type Props = { booking: Booking | null; onPlan: () => void; onTrack: () => void };
+type Props = { booking: BookingCard | null; onPlan: () => void; onTrack: (id: string) => void };
 
 export function UpcomingBooking({ booking, onPlan, onTrack }: Props) {
   if (!booking) {
@@ -53,16 +54,16 @@ export function UpcomingBooking({ booking, onPlan, onTrack }: Props) {
           <View className="flex-row items-center justify-between">
             <Text className="font-bold text-[0.625rem] leading-[0.9375rem] tracking-[0.125rem] text-primary-foreground/80">UPCOMING BOOKING</Text>
             <View className="rounded-full border border-primary-foreground/25 bg-primary-foreground/10 px-3 py-1">
-              <Text className="font-bold text-[0.625rem] leading-[0.9375rem] text-primary-foreground">CONFIRMED</Text>
+              <Text className="font-bold text-[0.625rem] leading-[0.9375rem] text-primary-foreground">{statusLabel(booking.status)}</Text>
             </View>
           </View>
-          <Text className="mt-3 font-display text-3xl leading-[2.3438rem] text-primary-foreground">{booking.selection.label}</Text>
-          <Text className="mt-1 text-sm leading-5 text-primary-foreground/80">with {booking.artist}</Text>
+          <Text className="mt-3 font-display text-3xl leading-[2.3438rem] text-primary-foreground">{booking.title}</Text>
+          <Text className="mt-1 text-sm leading-5 text-primary-foreground/80">with {booking.artist.studioName}</Text>
 
           <View className="mt-4 flex-row gap-2">
             {[
-              { icon: CalendarDays, value: booking.date },
-              { icon: Clock3, value: booking.time },
+              { icon: CalendarDays, value: longDate(booking.startsAt) },
+              { icon: Clock3, value: clockTime(booking.startsAt) },
             ].map(({ icon: Icon, value }) => (
               <View key={value} className="flex-1 rounded-2xl border border-primary-foreground/20 bg-primary-foreground/10 p-3">
                 <Icon size={sz(16)} color={ivory(0.8)} />
@@ -72,9 +73,9 @@ export function UpcomingBooking({ booking, onPlan, onTrack }: Props) {
           </View>
 
           <View className="mt-4 flex-row items-center justify-between">
-            <Text className="font-display text-xl leading-7 text-primary-foreground">{inr(booking.selection.total)}</Text>
-            <Button variant="glass" size="sm" iconRight={ArrowRight} onPress={onTrack}>
-              Track
+            <Text className="font-display text-xl leading-7 text-primary-foreground">{rupees(booking.totalPaise)}</Text>
+            <Button variant="glass" size="sm" iconRight={ArrowRight} onPress={() => onTrack(booking.id)}>
+              {booking.status === "pending_payment" ? "Pay now" : "Track"}
             </Button>
           </View>
         </View>

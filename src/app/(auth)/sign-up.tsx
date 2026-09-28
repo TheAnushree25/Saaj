@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { router } from "expo-router";
+import { useLocalSearchParams } from "expo-router";
 import { useRef, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, TextInput, View } from "react-native";
@@ -10,13 +10,19 @@ import { AuthShell } from "@/features/auth/components/auth-shell";
 import { ShimmerButton } from "@/features/auth/components/shimmer-button";
 import { signUpSchema, type SignUpInput } from "@/features/auth/schemas";
 import { useShake } from "@/features/auth/use-shake";
+import { useAuth } from "@/features/auth/auth-provider";
+import { leaveAuth, switchAuth } from "@/features/auth/auth-navigation";
+import { showServerError } from "@/features/auth/server-errors";
 import { hapticImpact, hapticSuccess } from "@/lib/haptics";
 import { useSaj } from "@/store/saj-store";
 
-/** Create an account: name, mobile number and password. UI only until guide step 13. */
+/** Create an account (name, mobile number, password) on the Saaj API. */
 export default function SignUp() {
+  const { then } = useLocalSearchParams<{ then?: string }>();
   const { finishOnboarding } = useSaj();
+  const { signUp } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
   const phoneRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
   const { style: shakeStyle, shake } = useShake();
@@ -24,6 +30,7 @@ export default function SignUp() {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<SignUpInput>({
     resolver: zodResolver(signUpSchema),
@@ -32,11 +39,19 @@ export default function SignUp() {
   });
 
   const submit = handleSubmit(
-    async () => {
+    async (values) => {
+      setFormError(null);
+      try {
+        await signUp(values);
+      } catch (error) {
+        hapticImpact();
+        shake();
+        setFormError(showServerError(error, ["fullName", "phone", "password"], setError));
+        return;
+      }
       hapticSuccess();
-      await new Promise((r) => setTimeout(r, 700));
       finishOnboarding();
-      router.replace("/home");
+      leaveAuth(then);
     },
     () => {
       hapticImpact();
@@ -112,13 +127,19 @@ export default function SignUp() {
         />
       </Animated.View>
 
+      {formError ? (
+        <Text accessibilityLiveRegion="polite" className="mb-3 text-xs leading-4 text-[#C0392B]">
+          {formError}
+        </Text>
+      ) : null}
+
       <View className="mt-2">
         <ShimmerButton label="Create account" loading={isSubmitting} onPress={submit} />
       </View>
 
       <View className="mt-6 flex-row justify-center">
         <Text className="text-sm leading-5 text-muted-foreground">Already have an account? </Text>
-        <Pressable onPress={() => (router.canGoBack() ? router.back() : router.replace("/sign-in"))} hitSlop={8}>
+        <Pressable onPress={() => switchAuth("/sign-in", then)} hitSlop={8}>
           <Text className="font-semibold text-sm leading-5 text-primary">Sign in</Text>
         </Pressable>
       </View>

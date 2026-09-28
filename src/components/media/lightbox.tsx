@@ -5,9 +5,10 @@ import { FlatList, Modal, Pressable, useWindowDimensions, View } from "react-nat
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { IconButton } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
+import type { Picture } from "@/data/catalogue";
 import { sz } from "@/theme/scale";
 
-type Props = { images: number[]; index: number | null; onClose: () => void };
+type Props = { images: Picture[]; index: number | null; onClose: () => void };
 
 /** Full-screen photo viewer. Swipe between photos, tap anywhere to close. */
 export function Lightbox({ images, index, onClose }: Props) {

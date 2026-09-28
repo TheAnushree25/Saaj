@@ -4,11 +4,12 @@ import { ArrowRight, Heart, Star } from "lucide-react-native";
 import { Pressable, StyleSheet, View } from "react-native";
 import { IconButton } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
-import type { Artist } from "@/data/catalogue";
+import { pictureOf } from "@/data/catalogue";
+import type { ArtistCard } from "@/lib/api-types";
 import { berry, colors, shadows } from "@/theme";
 import { sz } from "@/theme/scale";
 
-type Props = { artist: Artist; width: number; saved: boolean; onOpen: () => void; onSave: () => void };
+type Props = { artist: ArtistCard; width: number; saved: boolean; onOpen: () => void; onSave: () => void };
 
 /** A 4:5 portrait card in the "Trending bridal looks" carousel. Tapping it opens the portfolio. */
 export function PortfolioCard({ artist, width, saved, onOpen, onSave }: Props) {
@@ -21,10 +22,15 @@ export function PortfolioCard({ artist, width, saved, onOpen, onSave }: Props) {
       <Pressable
         onPress={onOpen}
         accessibilityRole="button"
-        accessibilityLabel={`${artist.studio} bridal portfolio`}
+        accessibilityLabel={`${artist.studioName} bridal portfolio`}
         className="flex-1 overflow-hidden rounded-[1.5rem] bg-card active:opacity-90"
       >
-        <Image source={artist.image} contentFit="cover" transition={250} style={StyleSheet.absoluteFill} />
+        <Image
+          source={pictureOf(artist.coverImageUrl ?? artist.profileImageUrl, artist.id)}
+          contentFit="cover"
+          transition={250}
+          style={StyleSheet.absoluteFill}
+        />
         <LinearGradient
           colors={[berry(0.95), berry(0), berry(0.1)]}
           locations={[0, 0.5, 1]}
@@ -36,12 +42,12 @@ export function PortfolioCard({ artist, width, saved, onOpen, onSave }: Props) {
           <View className="mb-2 flex-row items-center gap-1">
             <Star size={sz(12)} color={pf} fill={pf} />
             <Text className="text-xs leading-4 text-primary-foreground">
-              {artist.rating} · {artist.reviews} brides
+              {artist.rating === null ? "New on SAJ" : `${artist.rating} · ${artist.reviewCount} brides`}
             </Text>
           </View>
-          <Text className="font-display text-3xl leading-[2.3438rem] text-primary-foreground">{artist.studio}</Text>
+          <Text className="font-display text-3xl leading-[2.3438rem] text-primary-foreground">{artist.studioName}</Text>
           <Text className="mt-1 text-xs leading-4 text-primary-foreground/75">
-            {artist.category} · {artist.location}
+            {artist.specialty} · {artist.city}
           </Text>
           <View className="mt-4 flex-row items-center gap-2">
             <Text className="font-bold text-xs leading-4 tracking-[0.0975rem] text-primary-foreground">VIEW PORTFOLIO</Text>
